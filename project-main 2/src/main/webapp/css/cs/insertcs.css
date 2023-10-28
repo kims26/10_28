@@ -1,0 +1,255 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
+
+/** {*/
+/*    box-sizing: border-box;*/
+/*}*/
+
+/* 
+ . class
+ # id
+ > 자식
+*/
+
+
+.cont_public {
+    margin: 0 auto;
+    border-radius: 100px;
+    border-left: 5px solid #F7CAC9;
+    border-right: 5px solid #F7CAC9;
+    width: 750px;
+    
+    min-height: 700px;
+    padding-bottom: 60px;
+  
+}
+article {
+    display: block;
+}
+.cont_public > .tit_public {
+    font-size: 32px;
+    margin: 0 auto;
+    width: 750px;   
+    padding-bottom: 60px;
+}
+    
+
+#contents{
+    
+    height: 6.25em;
+    width: 550px;
+    border: none;
+    resize: none;
+    border: 1px solid #919191;
+    padding: 10px;
+}
+
+
+
+.screen_out {
+    overflow: hidden;
+    position: absolute;
+    width: 0;
+    height: 0;
+    line-height: 0;
+    text-indent: -9999px;
+    
+}
+
+.info_agree .desc_agree_sub {
+    margin-top: 13px;
+}
+.info_agree .desc_agree {
+    margin-top: 15px;
+    color: #878787;
+}
+
+
+body, dt,  ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, textarea, p, blockquote, th, td, input, select, button {
+   
+    margin: 0 auto;
+    padding: 0;
+    
+    font-size: 13px;
+    line-height: 1.5;
+    font-family: '맑은 고딕', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif, '돋움', dotum;
+    color: #1e1e1e;
+}
+dl{
+    height:  100px;
+}
+
+#fileList{
+ 
+
+    margin-top: -90px;
+
+}
+
+
+h2 {
+    display: block;
+    font-size: 1.5em;
+    margin-block-start: 0.83em;
+    margin-block-end: 0.83em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+}
+
+
+
+h3 {
+    display: block;
+    font-size: 1.17em;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+}
+
+.txt_required {
+    position: absolute;
+    top: 105px;
+    right: 0;
+}
+.info_question.fst {
+    border-top: 1px solid #1e1e1e;
+    
+    
+
+}
+
+.info_question {
+    float: left;
+    border-bottom: 1px solid #e8e8e8;
+}
+
+dl, ul, ol, menu, li {
+    list-style: none;
+}
+
+.info_question dt {
+    float: left;
+    width: 164px;
+    padding: 28px 0 28px 19px;
+    font-size: 15px;
+    letter-spacing: -1px;
+
+}
+.info_agree {
+    float: left;
+    margin-top: -1px;
+    border-top: 1px solid #1e1e1e;
+}
+.cont_public .btn_cs {
+    float: right;
+    margin: 50px 5px 50px 0;
+    font-weight: bold;
+    height: 40px;
+}
+
+.info_question .wrap_item {
+    float: left;
+    position: relative;
+    margin: 0;
+    top: -55px;
+    border: 1px solid #919191;
+    height: 38px;
+    width: 550px;
+}
+
+
+
+.info_question {
+    float: left;
+    border-bottom: 1px solid #e8e8e8;
+}
+.info_question .wrap_nation {
+    width: 135px;
+    border-right: 0 none;
+}
+
+.info_question .wrap_select .link_select {
+    position: absolute;
+    top: 8px;
+    left: 12px;
+    right: 12px;
+    display: block;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+
+
+.wrap_nationinfo .inp_nation {
+    display: block;
+    width: 100%;
+    height: 39px;
+    border: 0;
+    line-height: 39px;
+    text-indent: 45px;
+}
+
+.info_question .wrap_nationinfo .list_nationinfo {
+    height: 162px;
+}
+/*  경고 메세지 */
+#phone_message , #email_message{ 
+    font-size: 15px; 
+    float:left;
+    margin-top: -55px;
+    font-family: '맑은 고딕', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif, '돋움', dotum;
+    color: rgba(255, 0, 0, 0.703);
+}
+
+.info_question .wrap_phone {
+    width: 551px ;
+}
+.modal-body{
+    margin-top: 3px;
+    line-height: 25px;
+    font-size: 14px;  
+    text-align: center;
+
+}
+/* input[type="text" i] {
+    padding: 1px 2px;
+} */
+
+input, select, textarea, button {
+    vertical-align: middle;
+}
+.info_question .wrap_item .input {
+ 
+    width: 551px;
+    height: 100%;
+    float: right;
+    line-height: 36px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 0 13px;
+    
+    font-size: 15px;
+    z-index: 10;
+}
+.info_question dd {
+    float: right;
+    width: 579px;
+    height: 15px;
+    margin-bottom: 100px;
+
+}
+
+
+
+.info_question .wrap_item .txt_placeholder {
+    position: absolute;
+    top: 8px;
+    left: 12px;
+    font-size: 15px;
+    z-index: 5;
+    color: #919191;
+}

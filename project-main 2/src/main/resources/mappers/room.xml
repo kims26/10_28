@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.project_sample.dao.accommodation.RoomDao">
+
+<!-- 방 정보 등록하기 -->
+<insert id="roominsert" parameterType="RoomVo">
+insert into room
+values (seq_room_idx.nextval,
+        #{room_name},
+        '1994-04-25',
+        '1994-04-26',
+        0,
+        #{room_price},
+        #{room_people},
+        #{room_service},
+        #{room_cancel},
+        #{acc_idx})
+</insert>
+
+<!-- 가장 최근에 등록한 방 idx구하기 -->
+<select id="selectMaxIdx" resultType="int">
+        select nvl(max(room_idx),0) from room
+</select>
+
+<!-- 방 사진이랑 방 정보를 함께 조회할 수 있도록 만든 서브쿼리 -->
+<resultMap id="roomVoMap"  type="RoomVo">
+    <result property="room_idx"  column="room_idx" />
+    <collection   property="room_photo_list"
+                  select="selectRoomPhotoList"
+                  column="room_idx=room_idx" />
+</resultMap>
+
+<!-- 방 idx에 해당하는 방 사진 리스트 불러오기 -->
+<select id="selectRoomPhotoList" resultType="Room_PhotoVo">
+        select * from room_photo where room_idx = #{room_idx}
+</select>
+
+<!-- 숙소 idx에 해당하는 방 리스트 불러오기 -->
+<select id="selectRoomList" parameterType="int" resultMap="roomVoMap">
+        select * from room where acc_idx = #{acc_idx}
+</select>
+
+<!-- 방 idx에 해당하는 방 정보와 방 사진 정보 불러오기 -->
+<select id="selectRoomOne" parameterType="int" resultMap="roomVoMap">
+        select * from room where room_idx = #{room_idx}
+</select>
+
+<!-- 방 idx에 해당하는 방 정보와 방 사진 정보 삭제하기 -->
+<delete id="roomDelete" parameterType="int">
+
+        delete from room where room_idx = #{room_idx}
+</delete>
+
+
+<!-- <select id="resvRoomOne" parameterType="int" resultType="roomVomap">
+
+select
+    r.*,
+    (select count(*) from room where to_char(room_check_in,'YYYYMMDD') = #{room_check_in} and r.room_idx=room_idx) as room_use    
+from
+    (select * from room) r
+
+</select>  -->
+
+
+<!-- 숙소 idx에 해당하는 방 정보,방사진정보를 불러오고, 체크인하려는 날짜에 예약이 되어있으면 room_use가 1로, 예약이 안되있으면 0으로 나타나게 만든 쿼리 -->
+<select id="resvRoomList" parameterType="Map" resultMap="roomVoMap">
+
+select
+    r.*,
+    (select count(*) from room where to_char(room_check_in,'YYYYMMDD') = #{check_in_date} and r.room_idx=room_idx) as room_use    
+from
+    (select * from room where acc_idx = #{acc_idx}) r
+
+</select>
+
+
+</mapper>

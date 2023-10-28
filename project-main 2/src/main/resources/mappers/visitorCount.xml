@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.project_sample.dao.visit.VisitCountDao">
+
+
+    <insert id="insertVisitor" parameterType="visitorvo">
+        INSERT
+        INTO VISITOR
+        VALUES
+        (
+        SEQ_VISITOR_IDX.NEXTVAL,
+        #{visit_ip},
+        sysdate
+        )
+    </insert>
+
+   <!-- 하루동안 접속자 수 -->
+<select id="todayVisitorCount" resultType="int">
+    SELECT COUNT(*) 
+    FROM VISITOR
+    WHERE TRUNC(visit_time) = TRUNC(SYSDATE)
+</select>
+
+<!-- 한달동안 접속자 수 -->
+<select id="monthlyVisitorCount" resultType="int">
+    <![CDATA[
+        SELECT COUNT(*) 
+        FROM VISITOR
+        WHERE visit_time >= TRUNC(SYSDATE, 'MM') 
+        AND visit_time < ADD_MONTHS(TRUNC(SYSDATE, 'MM'), 1)
+    ]]>
+</select>
+<!-- 연간 접속자 수 -->
+<select id="yearlyVisitorCount" resultType="int">
+    <![CDATA[
+        SELECT COUNT(*) 
+        FROM VISITOR
+        WHERE EXTRACT(YEAR FROM visit_time) = EXTRACT(YEAR FROM SYSDATE)
+    ]]>
+</select>
+
+    <select id="getSun" resultType="int">
+        SELECT COUNT(*)
+        FROM VISITOR
+        where TRUNC(visit_time) = trunc(sysdate,'iw') - 1
+    </select>
+
+    <select id="getMon" resultType="int">
+        SELECT COUNT(*)
+        FROM VISITOR
+        where TRUNC(visit_time) = trunc(sysdate,'iw')
+    </select>
+
+    <select id="getTue" resultType="int">
+        SELECT COUNT(*)
+        FROM VISITOR
+        where TRUNC(visit_time) = trunc(sysdate,'iw') + 1
+    </select>
+
+    <select id="getWed" resultType="int">
+        SELECT COUNT(*)
+        FROM VISITOR
+        where TRUNC(visit_time) = trunc(sysdate,'iw') +2
+    </select>
+
+    <select id="getThu" resultType="int">
+        SELECT COUNT(*)
+        FROM VISITOR
+        where TRUNC(visit_time) = trunc(sysdate,'iw') +3
+    </select>
+
+    <select id="getFri" resultType="int">
+        SELECT COUNT(*)
+        FROM VISITOR
+        where TRUNC(visit_time) = trunc(sysdate,'iw') +4
+    </select>
+
+    <select id="getSat" resultType="int">
+        SELECT COUNT(*)
+        FROM VISITOR
+        where TRUNC(visit_time) = trunc(sysdate,'iw') +5
+    </select>
+
+
+
+
+</mapper>

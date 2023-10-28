@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.project_sample.dao.member.MemberDao">
+
+
+    <!-- 매니저페이지 일반 사용자만 조회 -->
+    <select id="selectNormalList" resultType="membervo">
+        select *
+        from member
+        where mem_distinguish = 'normal'
+    </select>
+
+    <!-- 매니저페이지 CEO 승인 된 사용자만 조회 -->
+    <select id="selectCeoList" resultType="membervo">
+        select *
+        from member
+        where mem_distinguish = 'ceo' and mem_state ='y'
+
+    </select>
+    <!-- 매니저페이지 총 이용자수 조회 -->
+    <select id="selectNormalCount" resultType="int">
+        SELECT COUNT(*) FROM member WHERE mem_distinguish = 'normal'
+    </select>
+
+    <!--매니저페이지 총 CEP수 조회  -->
+    <select id="selectCeoCount" resultType="int">
+        SELECT COUNT(*) FROM member 
+        WHERE mem_distinguish = 'ceo' 
+        and mem_state ='y'
+    </select>
+
+
+    <!-- 숙소 승인 대기중인 ceo 조회 -->
+    <select id="selectCeo_acc_state_n_list" resultType="MemberVo">
+    SELECT m.*
+    FROM member m
+    WHERE m.MEM_DISTINGUISH = 'ceo'
+    AND EXISTS (
+        SELECT 1
+        FROM accommodation a
+        WHERE a.mem_idx = m.mem_idx
+        AND a.acc_state = 'n'
+    )
+    </select>
+
+
+
+
+
+
+    <!-- ID 중복 조회  -->
+    <select id="checkId" parameterType="String" resultType="String">
+        select mem_id
+        from member
+        where mem_id = #{mem_id}
+    </select>
+
+    <!-- 닉네임 중복 조회  -->
+    <select id="checkNickname" resultType="String" parameterType="String">
+        select mem_nickname
+        from member
+        where mem_nickname = #{mem_nickname}
+    </select>
+
+    <!-- 회원 가입-->
+    <insert id="insert" parameterType="membervo">
+        insert into member
+        values (seq_mem_idx.nextval,
+                #{mem_distinguish},
+                #{mem_photo, jdbcType=VARCHAR},
+                #{mem_id},
+                #{mem_nickname},
+                #{mem_pwd},
+                #{mem_name},
+                #{mem_zipcode, jdbcType=INTEGER},
+                #{mem_addr, jdbcType=VARCHAR},
+                #{mem_phone, jdbcType=VARCHAR},
+                #{mem_email, jdbcType=VARCHAR},
+                sysdate,
+                #{mem_partner, jdbcType=VARCHAR},
+                #{mem_point},
+                #{mem_root},
+                #{mem_code, jdbcType=VARCHAR},
+                #{mem_state, jdbcType=VARCHAR},
+                #{mem_withdrawalDate, jdbcType=VARCHAR}
+                )
+    </insert>
+
+    <!-- ID 1개 반환 로그인 -->
+    <select id="selectOne" parameterType="String" resultType="membervo">
+        select *
+        from member
+        where mem_id = #{mem_id}
+    </select>
+
+
+
+    <!-- 파트너 1개 반환-->
+    <select id="searchPartner" parameterType="String" resultType="membervo">
+        select *
+        from member
+        where mem_code = #{mem_code}
+    </select>
+
+
+    <!-- 휴대폰 번호로 ID 찾기-->
+    <select id="searchIdByPhone" parameterType="Map" resultType="membervo">
+        select *
+        from member
+        where mem_name = #{mem_name}
+          and mem_phone = #{mem_phone}
+        and MEM_DISTINGUISH='normal'
+    </select>
+
+    <!-- 이메일 주소로 ID 찾기-->
+    <select id="searchIdByEmail" parameterType="Map" resultType="membervo">
+        select *
+        from member
+        where mem_name = #{mem_name}
+          and mem_email = #{mem_email}
+          and MEM_DISTINGUISH='normal'
+    </select>
+
+    <!-- 휴대폰 번호로 비밀번호 찾기-->
+    <select id="searchPwdByPhone" parameterType="Map" resultType="membervo">
+        select *
+        from member
+        where mem_name = #{mem_name}
+        and mem_phone = #{mem_phone}
+        and mem_id = #{mem_id}
+        and MEM_DISTINGUISH='normal'
+    </select>
+
+    <!-- 이메일 주소로 비밀번호 찾기-->
+    <select id="searchPwdByEmail" parameterType="Map" resultType="membervo">
+        select *
+        from member
+        where mem_name = #{mem_name}
+          and mem_email = #{mem_email}
+          and mem_id = #{mem_id}
+          and MEM_DISTINGUISH='normal'
+    </select>
+
+    <!-- 임시 비밀번호 변경-->
+  <select id="changePwd" parameterType="map">
+    update member
+    set mem_pwd = #{pwd}
+    where mem_id = #{mem_id}
+</select>
+
+    <update id="changePointandPartner" parameterType="Map">
+        update member
+        set mem_point   = #{mem_point},
+            mem_partner = #{mem_partner}
+        where mem_idx = #{mem_idx}
+    </update>
+
+    <!-- 회원 정보 수정-->
+    <update id="modify" parameterType="membervo">
+        update member
+        set mem_photo    = #{mem_photo, jdbcType=VARCHAR},
+            mem_nickname = #{mem_nickname, jdbcType=VARCHAR},
+            mem_pwd      = #{mem_pwd, jdbcType=VARCHAR},
+            mem_name     = #{mem_name, jdbcType=VARCHAR},
+            mem_zipcode  = #{mem_zipcode, jdbcType=INTEGER},
+            mem_addr     = #{mem_addr, jdbcType=VARCHAR},
+            mem_phone    = #{mem_phone, jdbcType=VARCHAR},
+            mem_email    = #{mem_email, jdbcType=VARCHAR},
+            mem_partner  = #{mem_partner, jdbcType=VARCHAR},
+            mem_point    = #{mem_point, jdbcType=INTEGER}
+            where mem_idx = ${mem_idx}
+    </update>
+
+    <!-- 승인 대기 관리자 조회-->
+    <select id="checkingCeoList" resultType="MemberVo">
+        select * from member where MEM_DISTINGUISH='ceo' and MEM_STATE='checking'
+    </select>
+
+
+    <!-- ID 1개 반환-->
+    <select id="selectByIdx" parameterType="int" resultType="membervo">
+        select *
+        from member
+        where mem_idx = #{mem_idx}
+    </select>
+
+    <!-- 사업자 승인 -->
+    <update id="modifyCeo" parameterType="membervo">
+        update member set mem_state = #{mem_state} where mem_idx = #{mem_idx}
+    </update>
+
+    <!-- 사업자 반려 -->
+    <delete id="deleteCeo" parameterType="membervo">
+        delete member where mem_idx = #{mem_idx}
+    </delete>
+
+    <update id="deleteMember" parameterType="int">
+        update member set MEM_WITHDRAWALDATE = sysdate where mem_idx = #{mem_idx}
+    </update>
+
+</mapper>
